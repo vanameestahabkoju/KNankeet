@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kodunõustamise ankeet – Päästeamet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffeb3b;
+      color: #000;
+      padding: 20px;
+      margin: 0;
+    }
+    h1, h2 {
+      background-color: #c62828;
+      color: #fff;
+      padding: 10px;
+    }
+    form {
+      background: #fff3e0;
+      padding: 20px;
+      border: 2px solid #c62828;
+      border-radius: 6px;
+    }
+    fieldset {
+      border: 1px solid #c62828;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    legend {
+      color: #c62828;
+      font-weight: bold;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    select, input[type="radio"] {
+      margin-top: 5px;
+      margin-right: 5px;
+    }
+    .hidden {
+      display: none;
+    }
+    .note {
+      background: #ffffcc;
+      padding: 10px;
+      margin-top: 10px;
+      border-left: 4px solid #fdd835;
+    }
+    .block {
+      background: #ffffff;
+      border-left: 8px solid #c62828;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    #loendur {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    #stoppNupp {
+      margin-top: 10px;
+      background-color: #c62828;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #stoppNupp:hover {
+      background-color: #a51e1e;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kodunõustamise ankeet</h1>
+
+<form id="ankeedivorm">
+
+  <label for="elamu">Elamu tüüp:</label>
+  <select id="elamu" name="elamu" required>
+    <option value="">-- Vali --</option>
+    <option value="korter">Korter</option>
+    <option value="eramaja">Eramaja</option>
+    <option value="suvila">Suvila</option>
+  </select>
+
+  <!-- Lisatud telefoninumbri sisestusväli -->
+  <label for="telefon">Elaniku kontakttelefon:</label>
+  <input type="tel" id="telefon" name="telefon" placeholder="+372 5XXXXXXX" required>
+
+  <label for="elanikud">Mitu inimest siin elab?</label>
+  <select id="elanikud" name="elanikud" required>
+    <option value="">-- Vali --</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="rohkem">Rohkem kui 10</option>
+  </select>
+
+    <!-- Suitsuandur ... -->
+    <fieldset>
+      <legend>Suitsuandur</legend>
+      <label>Kas suitsuandur on?
+        <input type="radio" name="suitsuandur_on" value="jah" required> Jah
+        <input type="radio" name="suitsuandur_on" value="ei"> Ei
+      </label>
+      <label>Kas suitsuandur on korrektselt paigaldatud?
+        <input type="radio" name="suitsuandur_paigaldatud" value="jah" required> Jah
+        <input type="radio" name="suitsuandur_paigaldatud" value="ei"> Ei
+      </label>
+      <label>Kas andurit testite?
+        <input type="radio" name="suitsuandur_testite" value="jah" required> Jah
+        <input type="radio" name="suitsuandur_testite" value="ei"> Ei
+      </label>
+    </fieldset>
+
+    <!-- Vingugaasiandur ... -->
+    <fieldset>
+      <legend>Vingugaasiandur</legend>
+      <label>Kas peab olema?
+        <input type="radio" name="vingu_peab" value="jah" onchange="toggleVinguOlemas()" required> Jah
+        <input type="radio" name="vingu_peab" value="ei" onchange="toggleVinguOlemas()"> Ei
+      </label>
+      <div id="vingu_olemas" class="hidden">
+        <label>Kas on olemas?
+          <input type="radio" name="vingu_on" value="jah" onchange="toggleVinguPaigaldatud()"> Jah
+          <input type="radio" name="vingu_on" value="ei" onchange="toggleVinguPaigaldatud()"> Ei
+        </label>
+      </div>
+      <div id="vingu_paigaldatud" class="hidden">
+        <label>Kas vingugaasiandur on korrektselt paigaldatud?
+          <input type="radio" name="vingu_paigaldatud" value="jah"> Jah
+          <input type="radio" name="vingu_paigaldatud" value="ei"> Ei
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Küttekolded ... -->
+    <fieldset>
+      <legend>Küttekolded</legend>
+      <label>Kas on visuaalselt korras?
+        <input type="radio" name="kytte_korras" value="jah" onchange="toggleKytteProgramm()" required> Jah
+        <input type="radio" name="kytte_korras" value="ei" onchange="toggleKytteProgramm()"> Ei
+      </label>
+      <div id="kodu_programm" class="hidden">
+        <label>Kas suunata “Kodu tuleohutuks” programmi?
+          <input type="radio" name="kytte_suunata" value="jah"> Jah
+          <input type="radio" name="kytte_suunata" value="ei"> Ei
+        </label>
+      </div>
+      <div class="note">
+        📌 Meeldetuletus: rääkida inimesega ohututest küttevõtetest ja tuha ladustamisest.
+      </div>
+    </fieldset>
+
+    <!-- Elektrisüsteem ... -->
+    <fieldset>
+      <legend>Elektrisüsteem</legend>
+      <label>Kas elektrisüsteem on ilma visuaalsete puudusteta?
+        <input type="radio" name="elekter_ok" value="jah" onchange="toggleElekterProgramm()" required> Jah
+        <input type="radio" name="elekter_ok" value="ei" onchange="toggleElekterProgramm()"> Ei
+      </label>
+      <div id="elekter_programm" class="hidden">
+        <label>Kas suunata “Kodu tuleohutuks” programmi?
+          <input type="radio" name="elekter_suunata" value="jah"> Jah
+          <input type="radio" name="elekter_suunata" value="ei"> Ei
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Kriisiks valmisolek ... -->
+    <fieldset>
+      <legend>Kriisiks valmisolek</legend>
+      <label>Kas inimene on enda hinnangul võimalikuks kriisiks valmis?
+        <input type="radio" name="kriisiks_valmis" value="jah" required> Jah
+        <input type="radio" name="kriisiks_valmis" value="ei"> Ei
+      </label>
+    </fieldset>
+
+    <button type="submit">Saada</button>
+  </form>
+
+  <h2>Nõustamise teemad</h2>
+
+  <div class="block">
+    <h3>Ohutu evakuatsioon</h3>
+    <ul>
+      <li>Kas perel on teada evakuatsiooniplaan?</li>
+	<li>Häire tuvastamine: suitsuanduri signaal, nähtav suits või leek – reageeri kohe.</li>
+	<li>Teavita kõiki hoones viibijaid – häirehüüe, koputamine, uste avamine.</li>
+	<li>Kiire ja ohutu evakuatsioon kokkulepitud teekonda pidi – vajadusel aita abivajajaid.</li>
+	<li>Kontrolli ukse temperatuuri enne avamist – kuum uks = tagane, leia muu väljapääs.</li>
+	<li>Suitsuses keskkonnas hoia madalat profiili, kata nina-suu.</li>
+	<li>Ära kasuta lifti – ainult trepp.</li>
+	<li>Kui väljapääs puudub – sulge uks, tihenda pilud, kutsu abi (112, aken, signaal).</li>
+	<li>Helista 112 – täpne aadress, olukorra kirjeldus, inimeste arv/jääjad.</li>
+	<li>Kogu inimesed kogunemiskohta, kontrolli kohalolekut, ära luba tagasi hoonesse.</li>
+	<li>Edasta info päästemeeskonnale – hoone plaan, ohtlikud ained, võimalikud jääjad.</li>
+	<li>Lisa: Harjuta evakuatsiooni regulaarselt – vähemalt 2x aastas kogu perega.</li>
+         </ul>
+  </div>
+
+<div class="block">
+  <h3>Kriisideks valmisolek</h3>
+  <ul>
+    <li>Tunne piirkonna riske – loodusõnnetused, elektrikatkestused, tormid, kiirgusintsidendid, küberrünnakud.</li>
+    <li>Koosta pere kriisiplaan – sh suhtlusvõimalused, võimaliku evakuatsiooni teekonnad ja kogunemiskoht.</li>
+    <li>
+      Varu vähemalt 7 päeva jagu toitu ja joogivett:
+      <ul>
+        <li>Joogivesi – minimaalselt 4 liitrit inimese kohta päevas (sh toidu valmistamiseks ja hügieeniks)</li>
+        <li>Konservid ja pika säilivusajaga kuivained (nt riis, pasta, pudrud, supp)</li>
+        <li>Valmistoit, mis ei vaja kuumutamist</li>
+        <li>Lastetoit ja spetsiaalne toit (nt allergikutele, imikutele)</li>
+        <li>Lemmikloomade toit</li>
+        <li>Primus või muu autonoomne toidu soojendamise võimalus</li>
+      </ul>
+    </li>
+    <li>Varu vajalikud ravimid, hügieenitarbed ja esmatarbekaup (sh lemmikloomade vajadused).</li>
+    <li>Hoia kodus töökindel taskulamp ja patareidega raadio – info saamiseks kriisiolukorras.</li>
+    <li>Lae varakult mobiilid, akupangad ja säilita vajalikud kontaktid kirjalikult.</li>
+    <li>Tunne Vabatahtliku päästja ja kogukonna kriisigrupi võimalusi oma piirkonnas.</li>
+    <li>Teavita pereliikmeid – teadmatus suurendab paanikat. Õpeta lapsi ja eakaid.</li>
+    <li>Osale harjutustel ja koolitustel – ennetav teadlikkus ja oskuslik tegutsemine päästab elusid.</li>
+    <li>Jälgi ametlikke infoallikaid (nt kriis.ee, Päästeamet, Häirekeskus 112).</li>
+  </ul>
+  
+  <h4>Lisa:</h4>
+  <ul>
+    <li>🎒 Koosta vajadusel evakuatsioonikott (dokumendid, varuriided, isiklikud vahendid).</li>
+    <li>🛑 Ära levita valeinfot sotsiaalmeedias – toetu tõendatud allikatele.</li>
+  </ul>
+</div>
+  <div class="block">
+    <h3>Veeohutus</h3>
+    <ul>
+    <li>
+      <strong>Lapsed ja vesi – mitte kunagi järelvalveta!</strong><br>
+      Jälgi alati väikseid lapsi veekogu läheduses – ka madal vesi on ohtlik.<br>
+      Väikelaps võib uppuda isegi kümne sentimeetri sügavuses vees (nt vann, tiik).
+    </li>
+    <li>
+      <strong>Kodune ja õuebassein – ohutu kasutamine:</strong><br>
+      Tühi bassein pärast kasutamist või kata see turvalise kaanega.<br>
+      Kontrolli vee kvaliteeti ja libisemisohtu (märjad pinnad, trepid).
+    </li>
+    <li>
+      <strong>Tiigid, ojad ja kaevud koduõues – suur oht lastele:</strong><br>
+      Piira ligipääs looduslikele veekogudele või rajatistele (kaevud, kraavid).<br>
+      Tagatud peab olema kaitse (aed, kate, hoiatussildid).
+    </li>
+    <li>
+      <strong>Ujumine sobivas kohas ja seisundis:</strong><br>
+      Ära uju tundmatus kohas, kus võib olla muda, taimestikku või uppumisriske.<br>
+      Väldi ujumist alkoholi, uimastite või tugeva väsimuse korral.
+    </li>
+    <li>
+      <strong>Päästevest – elupäästja veekogul:</strong><br>
+      Alati päästevest veesõidukites – paat, kanuu, SUP jne.<br>
+      Laps peab kandma sobivas suuruses ja kinnitatud päästevesti.
+    </li>
+    <li>
+      <strong>Libedus ja uppumisohud koduses keskkonnas:</strong><br>
+      Vannitoas kasutada libisemisvastaseid matte, eriti vannis või duši all.<br>
+      Eakatele soovitatavad käepidemed ja libisemisvabad pinnad.
+    </li>
+    <li>
+      <strong>Väldi riskikäitumist veekogudel:</strong><br>
+      Ära hüppa tundmatusse vette – peavigastuse ja halvatuse oht!<br>
+      Kontrolli alati vee sügavust ja põhja olukorda.
+    </li>
+    <li>
+      <strong>Õpeta lastele veeohutust varakult:</strong><br>
+      Kehtesta reeglid veekogu ääres viibimiseks ja pea neist kinni.<br>
+      Ainult ujumisoskus ei taga lapse arukust ega ohutust vees.
+    </li>
+    <li>
+      <strong>Esmaabi- ja päästeoskused – teadmised päästavad:</strong><br>
+      Tea, kuidas toimida uppumise või veeõnnetuse korral.<br>
+      Häda korral helista viivitamata 112.
+    </li>
+    <li>
+      <strong>Vesi ei andesta hooletust:</strong><br>
+      Uppumine toimub sageli kiiresti ja vaikselt – ilma karjumiseta.<br>
+      Ettevaatus ja teadlikkus vähendavad riske oluliselt.
+    </li>
+  </ul>
+
+  <h4>Lisa:</h4>
+  <ul>
+    <li>📄 Võimalusel jäta pererahvale veeohutuse infomaterjal või link: <a href="https://www.veeohutus.ee" target="_blank">veeohutus.ee</a></li>
+  </ul>
+</div>
+
+
+  <!-- ⏱ AJA LOENDUR – Nõustamise lõppu! -->
+  <fieldset id="ajaloendur_väli" class="hidden" style="margin-top: 40px; background: #fff3e0;">
+    <legend>Nõustamise kestus</legend>
+    <p>⏱ Aeg: <span id="loendur">00:00</span></p>
+    <button type="button" id="stoppNupp">Lõpeta nõustamine</button>
+  </fieldset>
+
+  <script>
+    function toggleVinguOlemas() {
+      const peab = document.querySelector('input[name="vingu_peab"]:checked');
+      document.getElementById('vingu_olemas').classList.toggle('hidden', peab?.value !== 'jah');
+      document.getElementById('vingu_paigaldatud').classList.add('hidden');
+    }
+
+    function toggleVinguPaigaldatud() {
+      const olemas = document.querySelector('input[name="vingu_on"]:checked');
+      document.getElementById('vingu_paigaldatud').classList.toggle('hidden', olemas?.value !== 'jah');
+    }
+
+    function toggleKytteProgramm() {
+      const korras = document.querySelector('input[name="kytte_korras"]:checked');
+      document.getElementById('kodu_programm').classList.toggle('hidden', korras?.value !== 'ei');
+    }
+
+    function toggleElekterProgramm() {
+      const korras = document.querySelector('input[name="elekter_ok"]:checked');
+      document.getElementById('elekter_programm').classList.toggle('hidden', korras?.value !== 'ei');
+    }
+
+    document.getElementById("ankeedivorm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("✅ Ankeet esitatud. Jätkake nõustamisega.");
+    });
+
+    // ⏱️ Ajaloendur kood
+    let loendurInterval;
+    let sekundid = 0;
+    let loendurAlustatud = false;
+
+    function formatTime(val) {
+      return val.toString().padStart(2, '0');
+    }
+
+    function uuendaLoendur() {
+      sekundid++;
+      const min = Math.floor(sekundid / 60);
+      const sec = sekundid % 60;
+      document.getElementById("loendur").textContent = `${formatTime(min)}:${formatTime(sec)}`;
+    }
+
+    document.getElementById("elamu").addEventListener("change", function () {
+      if (!loendurAlustatud && this.value !== "") {
+        loendurAlustatud = true;
+        sekundid = 0;
+        document.getElementById("loendur").textContent = "00:00";
+        document.getElementById("ajaloendur_väli").classList.remove("hidden");
+        loendurInterval = setInterval(uuendaLoendur, 1000);
+      }
+    });
+
+    document.getElementById("stoppNupp").addEventListener("click", function () {
+      clearInterval(loendurInterval);
+      alert("🕒 Nõustamine lõpetatud. Aeg: " + document.getElementById("loendur").textContent);
+    });
+  </script>
+</body>
+</html>
